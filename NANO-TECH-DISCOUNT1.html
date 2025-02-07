@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خصم 10% من نانو تك</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        
+        function sendWhatsAppNotification() {
+            const company = getQueryParam('company') || 'شركة غير معروفة';
+            const customerPhone = getQueryParam('phone') || 'رقم غير معروف';
+            const ownerWhatsApp = "9647717291119";
+            
+            const messageToOwner = `🚀 زبون جديد!\nاشترى من: ${company}\nرقم الزبون: ${customerPhone}`;
+            const ownerWhatsAppURL = `https://wa.me/${ownerWhatsApp}?text=${encodeURIComponent(messageToOwner)}`;
+            
+            fetch(ownerWhatsAppURL);
+        }
+        
+        function sendCustomerMessage() {
+            const customerPhone = getQueryParam('phone');
+            if (customerPhone) {
+                const message = "🎉 مرحبًا بك في نانو تك! لقد حصلت على خصم 10%! كيف يمكننا مساعدتك؟";
+                const customerWhatsAppURL = `https://wa.me/${customerPhone}?text=${encodeURIComponent(message)}`;
+                window.location.href = customerWhatsAppURL;
+            }
+        }
+        
+        function generateQRCode() {
+            const company = "العالمية للأثاث";
+            const phone = "964XXXXXXXXX"; // ضع رقم الزبون هنا عند التوليد الفعلي
+            const discountPageURL = `https://yourdomain.com/discount.html?company=${encodeURIComponent(company)}&phone=${encodeURIComponent(phone)}`;
+            
+            new QRCode(document.getElementById("qrcode"), {
+                text: discountPageURL,
+                width: 200,
+                height: 200
+            });
+        }
+        
+        window.onload = function() {
+            sendWhatsAppNotification();
+            generateQRCode();
+        };
+    </script>
+</head>
+<body>
+    <h2>🎉 مبروك! لقد حصلت على خصم 10% من نانو تك</h2>
+    <p>للاستفادة من الخصم، تواصل معنا عبر واتساب.</p>
+    <button onclick="sendCustomerMessage()">تواصل معنا عبر واتساب</button>
+    
+    <h3>🔲 امسح هذا الكود للحصول على الخصم:</h3>
+    <div id="qrcode"></div>
+</body>
+</html>
